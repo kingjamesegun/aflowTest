@@ -12,7 +12,7 @@ export const initialValues: SignUpProps = {
 	emailAddress: "",
 	password: "",
 	mobileNumber01: "",
-	countryCode: "",
+	countryCode: "+234",
 	confirmPassword: "",
 };
 

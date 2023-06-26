@@ -16,9 +16,10 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import GoogleIcon from "../assets/icons/google.svg";
 import Error from "../components/status/Error";
+import { loginAttempt } from "../api/LoginAttempt";
 
 const Login = () => {
-	const [triesLeft, setTriesLeft] = useState<number>(3);
+	const [triesLeft, setTriesLeft] = useState<number>(0);
 	const [rememberMe, setRememberMe] = useState(false);
 	const [showPassword, setShowPassword] = useState(false);
 	const [errors, setErrors] = useState("");
@@ -34,6 +35,8 @@ const Login = () => {
 
 	const handleSubmit = async (values: LoginProps) => {
 		const request: LoginRequest = values;
+		const userEmail = values.username;
+
 		try {
 			const response = await login(request);
 			const token = response.token;
@@ -41,12 +44,10 @@ const Login = () => {
 			navigate("/login-success");
 			setRememberMe(false);
 		} catch (error: any) {
-			console.log({ error: error.message });
-
-			setTriesLeft((prevTries) => prevTries - 1);
-
+			const res = await loginAttempt(userEmail);
+			setTriesLeft(res.attempt);
 			setErrors(error.message);
-			if (triesLeft === 0) {
+			if (triesLeft === 3) {
 				navigate("/error-attempt");
 			}
 		}

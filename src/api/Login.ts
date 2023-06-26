@@ -2,6 +2,7 @@ import axios from "axios";
 import { API_BASE_URL } from "./http-transport/axios";
 
 interface ApiResponse<T> {
+	userId: any;
 	token: any;
 	data: T;
 }

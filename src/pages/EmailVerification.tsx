@@ -48,18 +48,18 @@ const VerificationForm: React.FC = () => {
 		digit5: string;
 		digit6: string;
 	}) => {
-		// Combine the individual digits into a single verification code
-		const verificationCode = Object.values(values).join("");
-		const email = "kingjamesegun@gmail.com";
-		const request = { email, token: verificationCode };
-		const token = localStorage.getItem("token");
-		const response = validateToken(request, token);
-		console.log({ response });
-		navigate("/signup-success");
+		try {
+			const verificationCode = Object.values(values).join("");
+			const email = "kingjamesegun@gmail.com";
+			const request = { email, token: verificationCode };
+			const token = localStorage.getItem("token");
+			const response = validateToken(request, token);
+			navigate("/signup-success");
+		} catch (error) {}
 	};
 
 	return (
-		<div className="bg-lightBlue pt-20 justify-center items-center px-5 h-screen">
+		<div className="bg-bgBlue pt-20 justify-center items-center px-5 h-screen">
 			<div className="mx-auto w-full lg:w-1/3 ">
 				<div className="bg-white p-10 mx-auto rounded-xl  flex flex-col items-center">
 					<div className="bg-lightBlue rounded-full mb-3 py-4 px-2">
