@@ -28,7 +28,7 @@ const verificationSchema = Yup.object().shape({
 		.required("Digit is required"),
 });
 
-const VerificationForm: React.FC = () => {
+const PhoneVerify: React.FC = () => {
 	const navigate = useNavigate();
 
 	const initialValues = {
@@ -129,7 +129,7 @@ const VerificationForm: React.FC = () => {
 				<div className="mt-12 flex justify-center">
 					<Link to="/phone-verify">
 						<button className="py-3  px-5 bg-[#E4E4E4] border-gray200 border rounded-full">
-							Verify with phone number
+							Verify with email address
 						</button>
 					</Link>
 				</div>
@@ -138,4 +138,4 @@ const VerificationForm: React.FC = () => {
 	);
 };
 
-export default VerificationForm;
+export default PhoneVerify;

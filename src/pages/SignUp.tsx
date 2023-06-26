@@ -12,17 +12,21 @@ import {
 	validationSchema,
 } from "../validations/signUpValidate";
 import Button from "../components/button/Button";
-import { signup, SignUpRequest } from "../api";
+import { signup, SignUpRequest, sendToken } from "../api";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
+	const navigate = useNavigate();
 	const handleSubmit = async (values: SignUpProps) => {
 		const { confirmPassword, ...signupData } = values;
 		const request: SignUpRequest = signupData;
 		try {
 			const response = await signup(request);
-			console.log("working");
+			const token = localStorage.getItem("token");
+			const email = "kingjamesegun@gmail.com";
+			sendToken(email, token);
 
-			console.log({ response });
+			navigate("/verify");
 		} catch (error) {
 			console.log(error);
 		}
@@ -75,7 +79,11 @@ const SignUp = () => {
 								touched={touched.confirmPassword}
 								name="confirmPassword"
 							/>
-							<Button title="Create Account" type="submit" />
+							<Button
+								title="Create Account"
+								type="submit"
+								className="rounded-full py-2"
+							/>
 						</Form>
 					)}
 				</Formik>

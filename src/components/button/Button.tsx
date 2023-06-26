@@ -3,11 +3,12 @@ import React from "react";
 type ButtonProps = {
 	type: "button" | "submit" | "reset" | undefined;
 	title: string;
+	className: string;
 };
-const Button = ({ type, title }: ButtonProps) => {
+const Button = ({ type, title, className }: ButtonProps) => {
 	return (
 		<button
-			className="bg-primaryBlue w-full py-2 rounded-full text-center text-white font-bold mt-10"
+			className={`bg-primaryBlue w-full text-center text-white font-bold mt-5 ${className}`}
 			type={type}
 		>
 			{title}

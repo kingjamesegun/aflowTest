@@ -1,22 +1,10 @@
-import axios from "axios";
 import axiosInstance, { API_BASE_URL } from "./http-transport/axios";
 
-interface User {
-	userId: string;
-	token: string;
-	status: string;
-	countryCode: string;
-	mobileNumber: string;
-	isSuccessful: boolean;
-}
-
 interface ApiResponse<T> {
+	status: any;
+	token: any;
+	email: any;
 	data: T;
-}
-
-interface ApiError {
-	message: string;
-	code: number;
 }
 
 export type SignUpRequest = {

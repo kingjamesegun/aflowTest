@@ -13,20 +13,32 @@ import email from "../assets/icons/email.svg";
 import paddlock from "../assets/icons/paddlock.svg";
 import globe from "../assets/images/globe.png";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import GoogleIcon from "../assets/icons/google.svg";
+import WarningIcon2 from "../assets/icons/warning-small.svg";
 
 const Login = () => {
 	const [triesLeft, setTriesLeft] = useState<number>(3);
+	const [rememberMe, setRememberMe] = useState(false);
+	// const [errors, setErrors] = useState("");
+
 	const navigate = useNavigate();
+	const handleRememberMeChange = () => {
+		setRememberMe(!rememberMe);
+	};
+
 	const handleSubmit = async (values: LoginProps) => {
 		const request: LoginRequest = values;
 		try {
 			const response = await login(request);
-			console.log("working");
-
-			console.log({ response });
+			const token = response.token;
+			localStorage.setItem("token", token);
+			navigate("/login-success");
+			setRememberMe(false);
 		} catch (error) {
 			setTriesLeft((prevTries) => prevTries - 1);
+
+			// setErrors(error)
 			if (triesLeft === 0) {
 				navigate("/error-attempt");
 			}
@@ -35,7 +47,13 @@ const Login = () => {
 	return (
 		<div className="grid grid-cols-1 lg:grid-cols-2 ">
 			<div className="px-5 lg:px-20 py-10">
-				<img src={logo} alt="logo" />
+				<div className="flex justify-between">
+					<img src={logo} alt="logo" />
+					<div className="flex gap-2 bg-red10 rounded-md px-3 py-2 items-center">
+						<img src={WarningIcon2} alt="Warning IconSmall" />
+						<p className="text-xs">Incorrect credentials, try again </p>
+					</div>
+				</div>
 				<PageHeader
 					title="Welcome back"
 					desc="Enter credentials to sign in. "
@@ -65,20 +83,45 @@ const Login = () => {
 								triesLeft={triesLeft}
 								isPassword={true}
 							/>
-							<Button title="Create Account" type="submit" />
+							<div className="flex justify-between mt-5 items-center">
+								<div className="flex gap-2 items-center">
+									<input
+										type="checkbox"
+										id="rememberMe"
+										checked={rememberMe}
+										onChange={handleRememberMeChange}
+									/>
+									<label htmlFor="rememberMe" className="text-xs">
+										Remember Me
+									</label>
+								</div>
+								<p className="text-primaryBlue font-bold text-xs">
+									<Link to="forget-password">Forget Password</Link>
+								</p>
+							</div>
+
+							<Button
+								title="Sign In"
+								type="submit"
+								className="rounded-full py-2"
+							/>
 						</Form>
 					)}
 				</Formik>
-
-				<div className="flex gap-2 text-xs items-center justify-center mt-3">
-					<p className="text-gray200">Already have an account?</p>
-					<p className="text-black font-bold">Sign In instead</p>
+				<div className="flex gap-3 my-10 justify-center">
+					<img src={GoogleIcon} alt="Google Icon" />
+					<p className="text-gray200">Continue with Google</p>
 				</div>
-				<p className="text-center text-xs text-gray200 mt-10">
-					By clicking “create account”, I acknowledge that I have read and do
-					hereby accept the terms and conditions in the a-flow's Terms of Use,
-					Merchant Agreement and Privacy Policy.
-				</p>
+
+				<div
+					role="button"
+					className="flex gap-2 text-xs items-center justify-center mt-3"
+				>
+					<p className="text-gray200">Don’t have an account? </p>
+					<p className="text-black font-bold ">
+						<Link to="/signup">Create Account.</Link>
+					</p>
+				</div>
 			</div>
 			<div className="hidden lg:block bg-gray50 p-10">
 				<div className="bg-[url('assets/images/authBg.png')] h-full bg-cover bg-no-repeat w-full pt-14">

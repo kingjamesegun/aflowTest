@@ -1,19 +1,9 @@
 import axios from "axios";
 import { API_BASE_URL } from "./http-transport/axios";
 
-interface User {
-	id: number;
-	name: string;
-	email: string;
-}
-
 interface ApiResponse<T> {
+	token: any;
 	data: T;
-}
-
-interface ApiError {
-	message: string;
-	code: number;
 }
 
 export interface LoginRequest {
