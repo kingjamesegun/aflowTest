@@ -15,16 +15,21 @@ import globe from "../assets/images/globe.png";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import GoogleIcon from "../assets/icons/google.svg";
-import WarningIcon2 from "../assets/icons/warning-small.svg";
+import Error from "../components/status/Error";
 
 const Login = () => {
 	const [triesLeft, setTriesLeft] = useState<number>(3);
 	const [rememberMe, setRememberMe] = useState(false);
-	// const [errors, setErrors] = useState("");
+	const [showPassword, setShowPassword] = useState(false);
+	const [errors, setErrors] = useState("");
 
 	const navigate = useNavigate();
 	const handleRememberMeChange = () => {
 		setRememberMe(!rememberMe);
+	};
+
+	const togglePasswordVisibility = () => {
+		setShowPassword(!showPassword);
 	};
 
 	const handleSubmit = async (values: LoginProps) => {
@@ -35,10 +40,12 @@ const Login = () => {
 			localStorage.setItem("token", token);
 			navigate("/login-success");
 			setRememberMe(false);
-		} catch (error) {
+		} catch (error: any) {
+			console.log({ error: error.message });
+
 			setTriesLeft((prevTries) => prevTries - 1);
 
-			// setErrors(error)
+			setErrors(error.message);
 			if (triesLeft === 0) {
 				navigate("/error-attempt");
 			}
@@ -49,10 +56,7 @@ const Login = () => {
 			<div className="px-5 lg:px-20 py-10">
 				<div className="flex justify-between">
 					<img src={logo} alt="logo" />
-					<div className="flex gap-2 bg-red10 rounded-md px-3 py-2 items-center">
-						<img src={WarningIcon2} alt="Warning IconSmall" />
-						<p className="text-xs">Incorrect credentials, try again </p>
-					</div>
+					{errors ? <Error errors={errors} /> : null}
 				</div>
 				<PageHeader
 					title="Welcome back"
@@ -65,46 +69,50 @@ const Login = () => {
 				>
 					{({ errors, touched }) => (
 						<Form>
-							<MainInputs
-								icon={<img src={email} alt="email" />}
-								placeholder="Enter your email"
-								label="Email Address"
-								errors={errors?.username}
-								touched={touched.username}
-								name="username"
-							/>
-							<MainInputs
-								icon={<img src={paddlock} alt="paddlock" />}
-								placeholder="Enter your password"
-								label="Password"
-								errors={errors.password}
-								touched={touched.password}
-								name="password"
-								triesLeft={triesLeft}
-								isPassword={true}
-							/>
-							<div className="flex justify-between mt-5 items-center">
-								<div className="flex gap-2 items-center">
-									<input
-										type="checkbox"
-										id="rememberMe"
-										checked={rememberMe}
-										onChange={handleRememberMeChange}
-									/>
-									<label htmlFor="rememberMe" className="text-xs">
-										Remember Me
-									</label>
+							<div className="mt-14">
+								<MainInputs
+									icon={<img src={email} alt="email" />}
+									placeholder="Enter your email"
+									label="Email Address"
+									errors={errors?.username}
+									touched={touched.username}
+									name="username"
+								/>
+								<MainInputs
+									icon={<img src={paddlock} alt="paddlock" />}
+									placeholder="Enter your password"
+									label="Password"
+									errors={errors.password}
+									touched={touched.password}
+									toggleIcon={togglePasswordVisibility}
+									name="password"
+									showPassword={showPassword}
+									triesLeft={triesLeft}
+									isPassword={true}
+								/>
+								<div className="flex justify-between mt-5 items-center">
+									<div className="flex gap-2 items-center">
+										<input
+											type="checkbox"
+											id="rememberMe"
+											checked={rememberMe}
+											onChange={handleRememberMeChange}
+										/>
+										<label htmlFor="rememberMe" className="text-xs">
+											Remember Me
+										</label>
+									</div>
+									<p className="text-primaryBlue font-bold text-xs">
+										<Link to="forget-password">Forget Password</Link>
+									</p>
 								</div>
-								<p className="text-primaryBlue font-bold text-xs">
-									<Link to="forget-password">Forget Password</Link>
-								</p>
-							</div>
 
-							<Button
-								title="Sign In"
-								type="submit"
-								className="rounded-full py-2"
-							/>
+								<Button
+									title="Sign In"
+									type="submit"
+									className="rounded-full py-2"
+								/>
+							</div>
 						</Form>
 					)}
 				</Formik>
@@ -123,12 +131,12 @@ const Login = () => {
 					</p>
 				</div>
 			</div>
-			<div className="hidden lg:block bg-gray50 p-10">
-				<div className="bg-[url('assets/images/authBg.png')] h-full bg-cover bg-no-repeat w-full pt-14">
-					<img src={globe} alt="globe" />
+			<div className="hidden lg:block h-screen bg-gray50 py-10 px-20">
+				<div className="bg-[url('assets/images/authBg.png')] h-full bg-cover rounded-[50px] bg-no-repeat w-full pt-8">
+					<img src={globe} alt="globe" className="w-3/4 mx-auto" />
 					<div className="flex  justify-center">
-						<div className="w-[50%]">
-							<h1 className="text-white text-3xl font-bold text-center">
+						<div className="w-[70%]">
+							<h1 className="text-white text-4xl font-bold text-center">
 								The Leading B2B Liquidity & Payment Settlement Provider.
 							</h1>
 							<p className="text-gray100 text-sm text-center mt-5 mb-20">

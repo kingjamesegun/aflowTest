@@ -13,6 +13,8 @@ interface MainInputsProps {
 	isPhone?: boolean;
 	triesLeft?: number | undefined;
 	isPassword?: boolean;
+	toggleIcon?: () => void;
+	showPassword?: boolean;
 }
 
 const MainInputs: React.FC<MainInputsProps> = ({
@@ -21,6 +23,8 @@ const MainInputs: React.FC<MainInputsProps> = ({
 	placeholder,
 	errors,
 	touched,
+	showPassword,
+	toggleIcon,
 	name,
 	isPhone,
 	triesLeft,
@@ -56,7 +60,7 @@ const MainInputs: React.FC<MainInputsProps> = ({
 						</Field>
 						<Field
 							placeholder={placeholder}
-							type={isPassword ? "password" : "text"}
+							type={isPassword && !showPassword ? "password" : "text"}
 							className="text-black bg-white font-semibold focus:border-0 w-11/12 focus:outline-none"
 							id={label}
 							name={name}
@@ -68,7 +72,9 @@ const MainInputs: React.FC<MainInputsProps> = ({
 						{triesLeft > 0 && triesLeft < 3 ? `${triesLeft} tries Left` : null}
 					</p>
 				) : null}
-				{isPassword ? <img src={HideIcon} alt="show" /> : null}
+				<div onClick={toggleIcon}>
+					{isPassword ? <img src={HideIcon} alt="show" /> : null}
+				</div>
 				{!errors && touched && !isPassword && <img src={mark} alt="correct" />}
 			</div>
 		</div>

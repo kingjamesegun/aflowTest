@@ -1,6 +1,5 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
 import SuccessPage from "./pages/SuccessPage";
 import EmailVerification from "./pages/EmailVerification";
@@ -11,12 +10,8 @@ import AccountCreated from "./pages/AccountCreated";
 import PhoneVerify from "./pages/PhoneVerify";
 
 const router = createBrowserRouter([
-	{
-		path: "/",
-		element: <Home />,
-	},
 	{ path: "signup", element: <SignUp /> },
-	{ path: "login", element: <Login /> },
+	{ path: "/", element: <Login /> },
 	{ path: "status", element: <SuccessPage /> },
 	{ path: "verify", element: <EmailVerification /> },
 	{ path: "phone-verify", element: <PhoneVerify /> },

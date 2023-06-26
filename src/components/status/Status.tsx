@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import Logo from "../../assets/icons/logo.svg";
-import Loader from "../../assets/icons/loader.svg";
 import Button from "../button/Button";
+import Spinner from "../../assets/icons/spinner.svg";
 
 type StatusProps = {
 	icon: ReactNode;
@@ -20,7 +20,7 @@ const Status: React.FC<StatusProps> = ({ icon, title, desc, isLoading }) => {
 					<p className="text-gray100 mt-3">{desc}</p>
 
 					{isLoading ? (
-						<img src={Loader} alt="loader" className="my-10" />
+						<img src={Spinner} alt="Spinner" />
 					) : (
 						<Button
 							title="Contact Support"
