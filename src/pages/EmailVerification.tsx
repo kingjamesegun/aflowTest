@@ -1,63 +1,32 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
+import React, { useState } from "react";
 import { validateToken } from "../api";
 import OtpInput from "../components/inputs/OtpInput";
 import Paddlock from "../assets/icons/paddlock2.svg";
-import Button from "../components/button/Button";
 import { Link, useNavigate } from "react-router-dom";
-
-const verificationSchema = Yup.object().shape({
-	digit1: Yup.string()
-		.matches(/^\d$/, "Invalid digit")
-		.required("Digit is required"),
-	digit2: Yup.string()
-		.matches(/^\d$/, "Invalid digit")
-		.required("Digit is required"),
-	digit3: Yup.string()
-		.matches(/^\d$/, "Invalid digit")
-		.required("Digit is required"),
-	digit4: Yup.string()
-		.matches(/^\d$/, "Invalid digit")
-		.required("Digit is required"),
-	digit5: Yup.string()
-		.matches(/^\d$/, "Invalid digit")
-		.required("Digit is required"),
-	digit6: Yup.string()
-		.matches(/^\d$/, "Invalid digit")
-		.required("Digit is required"),
-});
+import Button from "../components/button/Button";
 
 const VerificationForm: React.FC = () => {
 	const navigate = useNavigate();
 
-	const initialValues = {
-		digit1: "",
-		digit2: "",
-		digit3: "",
-		digit4: "",
-		digit5: "",
-		digit6: "",
-	};
+	const [otp, setOtp] = useState("");
+	const [error, setError] = useState("");
 
-	const handleSubmit = (values: {
-		digit1: string;
-		digit2: string;
-		digit3: string;
-		digit4: string;
-		digit5: string;
-		digit6: string;
-	}) => {
+	const onChange = (value: string) => setOtp(value);
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
 		try {
-			const verificationCode = Object.values(values).join("");
 			const email = "kingjamesegun@gmail.com";
-			const request = { email, token: verificationCode };
+			const request = { email, token: otp };
 			const token = localStorage.getItem("token");
-			const response = validateToken(request, token);
-			navigate("/signup-success");
-		} catch (error) {}
-	};
+			const response = await validateToken(request, token);
 
+			if (response) {
+				navigate("/signup-success");
+			}
+		} catch (error: any) {
+			setError(error.message);
+		}
+	};
 	return (
 		<div className="bg-bgBlue pt-20 justify-center items-center px-5 h-screen">
 			<div className="mx-auto w-full lg:w-1/3 ">
@@ -71,59 +40,29 @@ const VerificationForm: React.FC = () => {
 							Enter the 6-digit code we sent to your email
 						</p>
 					</div>
-					<Formik
-						initialValues={initialValues}
-						validationSchema={verificationSchema}
-						onSubmit={handleSubmit}
-					>
-						{({ errors, touched }) => (
-							<Form>
-								<div className="flex gap-3 my-10">
-									<OtpInput
-										id="digit1"
-										name="digit1"
-										error={errors.digit1}
-										touched={touched.digit1}
-									/>
-									<OtpInput
-										id="digit2"
-										name="digit2"
-										error={errors.digit2}
-										touched={touched.digit2}
-									/>
-									<OtpInput
-										id="digit3"
-										name="digit3"
-										error={errors.digit3}
-										touched={touched.digit3}
-									/>
-									<OtpInput
-										id="digit4"
-										name="digit4"
-										error={errors.digit4}
-										touched={touched.digit4}
-									/>
-									<OtpInput
-										id="digit5"
-										name="digit5"
-										error={errors.digit5}
-										touched={touched.digit5}
-									/>
-									<OtpInput
-										id="digit6"
-										name="digit6"
-										error={errors.digit6}
-										touched={touched.digit6}
-									/>
-								</div>
+					<form onSubmit={handleSubmit}>
+						<div className="flex  flex-col gap-5 my-10">
+							<OtpInput
+								value={otp}
+								valueLength={6}
+								onChange={onChange}
+								error={error}
+							/>
+							{error ? (
+								<Button
+									title={error}
+									type="submit"
+									className="bg-gray200 py-3 rounded-md"
+								/>
+							) : (
 								<Button
 									type="submit"
-									title="Let’s go"
-									className="rounded-md py-5"
+									title="Let's go"
+									className="bg-lightBlue py-3 rounded-md"
 								/>
-							</Form>
-						)}
-					</Formik>
+							)}
+						</div>
+					</form>
 				</div>
 
 				<div className="mt-12 flex justify-center">

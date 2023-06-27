@@ -4,6 +4,7 @@ type ButtonProps = {
 	type: "button" | "submit" | "reset" | undefined;
 	title: string;
 	className: string;
+	disabled?: boolean;
 };
 const Button = ({ type, title, className }: ButtonProps) => {
 	return (

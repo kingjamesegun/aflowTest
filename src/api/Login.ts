@@ -30,7 +30,7 @@ export async function login(
 			request
 		);
 		return response.data;
-	} catch (error) {
-		throw new Error("Failed to login");
+	} catch (error: any) {
+		throw new Error(error);
 	}
 }

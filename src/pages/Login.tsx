@@ -41,13 +41,16 @@ const Login = () => {
 			const response = await login(request);
 			const token = response.token;
 			localStorage.setItem("token", token);
+
 			navigate("/login-success");
+
 			setRememberMe(false);
 		} catch (error: any) {
 			const res = await loginAttempt(userEmail);
 			setTriesLeft(res.attempt);
 			setErrors(error.message);
-			if (triesLeft === 3) {
+
+			if (triesLeft === 4) {
 				navigate("/error-attempt");
 			}
 		}
@@ -91,7 +94,7 @@ const Login = () => {
 									triesLeft={triesLeft}
 									isPassword={true}
 								/>
-								<div className="flex justify-between mt-5 items-center">
+								<div className="flex justify-between mt-8 lg:mt-5 items-center">
 									<div className="flex gap-2 items-center">
 										<input
 											type="checkbox"
@@ -108,19 +111,22 @@ const Login = () => {
 									</p>
 								</div>
 
-								<Button
-									title="Sign In"
-									type="submit"
-									className="rounded-full py-2"
-								/>
+								<div className="flex gap-5 flex-col">
+									<Button
+										title="Sign In"
+										type="submit"
+										className="rounded-full py-2"
+									/>
+									<p className="text-center text-sm lg:hidden">or</p>
+									<div className="flex gap-3 mb-10 justify-center border border-gray100 lg:border-none rounded-full py-3">
+										<img src={GoogleIcon} alt="Google Icon" />
+										<p className="text-gray200">Continue with Google</p>
+									</div>
+								</div>
 							</div>
 						</Form>
 					)}
 				</Formik>
-				<div className="flex gap-3 my-10 justify-center">
-					<img src={GoogleIcon} alt="Google Icon" />
-					<p className="text-gray200">Continue with Google</p>
-				</div>
 
 				<div
 					role="button"

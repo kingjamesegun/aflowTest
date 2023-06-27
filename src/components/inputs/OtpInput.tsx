@@ -1,27 +1,102 @@
-import { Field } from "formik";
+import React, { useMemo } from "react";
+const RE_DIGIT = new RegExp(/^\d+$/);
 
-type OtpInputProps = {
-	name: string;
-	id: string;
-	error: string | undefined;
-	touched: boolean | undefined;
+export type Props = {
+	value: string;
+	valueLength: number;
+	onChange: (value: string) => void;
+	error: string;
 };
-const OtpInput = ({ name, id, error, touched }: OtpInputProps) => {
+
+export default function OtpInput({
+	value,
+	valueLength,
+	onChange,
+	error,
+}: Props) {
+	const valueItems = useMemo(() => {
+		const valueArray = value.split("");
+		const items: Array<string> = [];
+
+		for (let i = 0; i < valueLength; i++) {
+			const char = valueArray[i];
+
+			if (RE_DIGIT.test(char)) {
+				items.push(char);
+			} else {
+				items.push("");
+			}
+		}
+
+		return items;
+	}, [value, valueLength]);
+
+	const focusToNextInput = (target: HTMLElement) => {
+		const nextElementSibling =
+			target.nextElementSibling as HTMLInputElement | null;
+
+		if (nextElementSibling) {
+			nextElementSibling.focus();
+		}
+	};
+	const inputOnChange = (
+		e: React.ChangeEvent<HTMLInputElement>,
+		idx: number
+	) => {
+		const target = e.target;
+		let targetValue = target.value.trim();
+		const isTargetValueDigit = RE_DIGIT.test(targetValue);
+
+		if (!isTargetValueDigit && targetValue !== "") {
+			return;
+		}
+
+		const nextInputEl = target.nextElementSibling as HTMLInputElement | null;
+
+		// only delete digit if next input element has no value
+		if (!isTargetValueDigit && nextInputEl && nextInputEl.value !== "") {
+			return;
+		}
+
+		targetValue = isTargetValueDigit ? targetValue : " ";
+
+		const targetValueLength = targetValue.length;
+
+		if (targetValueLength === 1) {
+			const newValue =
+				value.substring(0, idx) + targetValue + value.substring(idx + 1);
+
+			onChange(newValue);
+
+			if (!isTargetValueDigit) {
+				return;
+			}
+
+			focusToNextInput(target);
+		} else if (targetValueLength === valueLength) {
+			onChange(targetValue);
+
+			target.blur();
+		}
+	};
+
 	return (
-		<div
-			className={`w-12 border-2 text-center border-gray100 py-5 rounded-md text-3xl active:border-[#169DD7] px-2 ${
-				error && touched ? "border-red" : null
-			} ${!error && touched ? "border-[#169DD7] text-[#169DD7]" : null}`}
-		>
-			<Field
-				type="text"
-				id={id}
-				name={name}
-				maxLength={1}
-				className="focus:border-b border-lightBlue w-full text-center text-lightBlue focus:outline-none"
-			/>
+		<div className="flex gap-2">
+			{valueItems.map((digit, idx) => (
+				<input
+					key={idx}
+					type="text"
+					inputMode="numeric"
+					autoComplete="one-time-code"
+					pattern="\d{1}"
+					maxLength={valueLength}
+					className={`border w-12 py-5 text-center text-3xl rounded-lg  ${
+						error ? "border-red text-red" : "border-gray100  text-lightBlue"
+					}`}
+					value={digit}
+					onChange={(e) => inputOnChange(e, idx)}
+				/>
+			))}
 		</div>
 	);
-};
-
-export default OtpInput;
+}

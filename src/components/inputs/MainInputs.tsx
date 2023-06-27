@@ -32,7 +32,7 @@ const MainInputs: React.FC<MainInputsProps> = ({
 }) => {
 	return (
 		<div
-			className={`relative border-gray100 border-2 rounded-lg gap-5 mt-5 flex p-5  items-center${
+			className={`relative border-gray100 border-2 rounded-lg gap-5 mt-5 flex p-3 lg:p-5  items-center${
 				errors && touched ? "border-2 relative border-red  rounded-lg " : ""
 			} `}
 		>
@@ -67,7 +67,9 @@ const MainInputs: React.FC<MainInputsProps> = ({
 				</div>
 				{triesLeft !== undefined ? (
 					<p className="text-red text-xs w-[100px] block  mr-2">
-						{triesLeft > 0 ? `${4 - triesLeft} tries Left` : null}
+						{triesLeft > 0 && triesLeft < 5
+							? `${5 - triesLeft} tries Left`
+							: null}
 					</p>
 				) : null}
 				<div onClick={toggleIcon}>
