@@ -64,54 +64,56 @@ const SignUp = () => {
 					validationSchema={validationSchema}
 					onSubmit={handleSubmit}
 				>
-					{({ errors, touched, handleBlur }) => (
-						<Form>
-							<MainInputs
-								icon={<img src={email} alt="email" />}
-								placeholder="Enter your email"
-								label="Email Address"
-								errors={errors?.emailAddress}
-								touched={touched.emailAddress}
-								name="emailAddress"
-							/>
-							<MainInputs
-								icon={<img src={phone} alt="phone" />}
-								placeholder="813-3000-411"
-								label="Phone No"
-								errors={errors.mobileNumber01}
-								touched={touched.mobileNumber01}
-								name="mobileNumber01"
-								isPhone={true}
-							/>
-							<MainInputs
-								icon={<img src={paddlock} alt="paddlock" />}
-								placeholder="Enter your password"
-								label="Password"
-								errors={errors.password}
-								touched={touched.password}
-								name="password"
-								toggleIcon={togglePasswordVisibility}
-								isPassword={true}
-								showPassword={showPassword}
-							/>
-							<MainInputs
-								icon={<img src={paddlock} alt="paddlock" />}
-								placeholder="Enter your password"
-								label="Password again"
-								errors={errors.confirmPassword}
-								touched={touched.confirmPassword}
-								isPassword={true}
-								showPassword={showConfirmPassword}
-								toggleIcon={toggleConfirmPasswordVisibility}
-								name="confirmPassword"
-							/>
-							<Button
-								title="Create Account"
-								type="submit"
-								className="rounded-full py-2"
-							/>
-						</Form>
-					)}
+					{({ errors, touched }) => {
+						return (
+							<Form>
+								<MainInputs
+									icon={<img src={email} alt="email" />}
+									placeholder="Enter your email"
+									label="Email Address"
+									errors={errors?.emailAddress}
+									touched={touched.emailAddress}
+									name="emailAddress"
+								/>
+								<MainInputs
+									icon={<img src={phone} alt="phone" />}
+									placeholder="Enter your phone number"
+									label="Phone No"
+									errors={errors.mobileNumber01}
+									touched={touched.mobileNumber01}
+									name="mobileNumber01"
+									isPhone={true}
+								/>
+								<MainInputs
+									icon={<img src={paddlock} alt="paddlock" />}
+									placeholder="Enter your password"
+									label="Password"
+									errors={errors.password}
+									touched={touched.password}
+									name="password"
+									toggleIcon={togglePasswordVisibility}
+									isPassword={true}
+									showPassword={showPassword}
+								/>
+								<MainInputs
+									icon={<img src={paddlock} alt="paddlock" />}
+									placeholder="Enter your password"
+									label="Password again"
+									errors={errors.confirmPassword}
+									touched={touched.confirmPassword}
+									isPassword={true}
+									showPassword={showConfirmPassword}
+									toggleIcon={toggleConfirmPasswordVisibility}
+									name="confirmPassword"
+								/>
+								<Button
+									title="Create Account"
+									type="submit"
+									className="rounded-full py-2"
+								/>
+							</Form>
+						);
+					}}
 				</Formik>
 
 				<div className="flex gap-2 text-xs items-center justify-center mt-3">
@@ -126,7 +128,7 @@ const SignUp = () => {
 					Merchant Agreement and Privacy Policy.
 				</p>
 			</div>
-			<div className="hidden h-screen lg:block relative bg-gray50 py-10 px-10  lg:col-span-5 2xl:col-span-4">
+			<div className="hidden h-full lg:block relative bg-gray50 py-10 px-10  lg:col-span-5 2xl:col-span-4">
 				<div className="bg-[url('assets/images/bgImage.png')] h-full bg-cover rounded-[30px] bg-no-repeat w-full pt-8">
 					<div className="flex absolute bottom-10 justify-center">
 						<div className="w-[70%]">

@@ -33,7 +33,7 @@ const MainInputs: React.FC<MainInputsProps> = ({
 }) => {
 	return (
 		<div
-			className={`relative border-gray100 border  rounded-lg gap-5 mt-5 flex p-3 lg:p-5  items-center focus:border-red ${
+			className={`relative border-gray100 border  rounded-lg gap-5 mt-5 2xl:mt-8 flex p-3 lg:p-5  items-center focus:border-red ${
 				errors && !touched ? "border-2 relative border-red  rounded-lg " : ""
 			} `}
 		>
