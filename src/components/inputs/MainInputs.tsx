@@ -62,7 +62,7 @@ const MainInputs: React.FC<MainInputsProps> = ({
 							id={label}
 							name={name}
 							placeholder={placeholder}
-							className="text-black placeholder-transparent outline-none  font-regular focus:border-0 w-11/12 focus:outline-none focus:bg-none"
+							className="text-black placeholder-transparent outline-none  font-light focus:border-0 w-11/12 focus:outline-none focus:bg-none"
 						/>
 					</div>
 				</div>

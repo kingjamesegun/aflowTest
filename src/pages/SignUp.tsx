@@ -126,7 +126,7 @@ const SignUp = () => {
 					Merchant Agreement and Privacy Policy.
 				</p>
 			</div>
-			<div className="hidden lg:block relative bg-gray50 py-10 px-10  lg:col-span-5 2xl:col-span-4">
+			<div className="hidden h-screen lg:block relative bg-gray50 py-10 px-10  lg:col-span-5 2xl:col-span-4">
 				<div className="bg-[url('assets/images/bgImage.png')] h-full bg-cover rounded-[30px] bg-no-repeat w-full pt-8">
 					<div className="flex absolute bottom-10 justify-center">
 						<div className="w-[70%]">
