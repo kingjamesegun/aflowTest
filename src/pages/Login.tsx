@@ -11,7 +11,6 @@ import MainInputs from "../components/inputs/MainInputs";
 import Button from "../components/button/Button";
 import email from "../assets/icons/email.svg";
 import paddlock from "../assets/icons/paddlock.svg";
-import globe from "../assets/images/globe.png";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import GoogleIcon from "../assets/icons/google.svg";
@@ -56,8 +55,8 @@ const Login = () => {
 		}
 	};
 	return (
-		<div className="grid grid-cols-1 lg:grid-cols-2 ">
-			<div className="px-5 lg:px-20 py-10">
+		<div className="grid grid-cols-1 lg:grid-cols-12 ">
+			<div className="px-5 lg:px-20 py-10 lg:col-span-7 2xl:col-span-8">
 				<div className="flex justify-between">
 					<img src={logo} alt="logo" />
 					{errors ? <Error errors={errors} /> : null}
@@ -71,9 +70,9 @@ const Login = () => {
 					validationSchema={validationSchema}
 					onSubmit={handleSubmit}
 				>
-					{({ errors, touched }) => (
+					{({ errors, touched, values, initialValues }) => (
 						<Form>
-							<div className="mt-14">
+							<div className="mt-10">
 								<MainInputs
 									icon={<img src={email} alt="email" />}
 									placeholder="Enter your email"
@@ -94,13 +93,14 @@ const Login = () => {
 									triesLeft={triesLeft}
 									isPassword={true}
 								/>
-								<div className="flex justify-between mt-8 lg:mt-5 items-center">
+								<div className="flex justify-between mt-8 lg:mt-5 px-[20px] items-center">
 									<div className="flex gap-2 items-center">
 										<input
 											type="checkbox"
 											id="rememberMe"
 											checked={rememberMe}
 											onChange={handleRememberMeChange}
+											className="accent-primaryBlue   bg-grey-700 "
 										/>
 										<label htmlFor="rememberMe" className="text-xs">
 											Remember Me
@@ -138,12 +138,11 @@ const Login = () => {
 					</p>
 				</div>
 			</div>
-			<div className="hidden lg:block h-screen bg-gray50 py-10 px-20">
-				<div className="bg-[url('assets/images/authBg.png')] h-full bg-cover rounded-[50px] bg-no-repeat w-full pt-8">
-					<img src={globe} alt="globe" className="w-3/4 mx-auto" />
-					<div className="flex  justify-center">
+			<div className="hidden lg:block h-screen relative bg-gray50 py-10 px-10  lg:col-span-5 2xl:col-span-4">
+				<div className="bg-[url('assets/images/bgImage.png')] h-full bg-cover rounded-[30px] bg-no-repeat w-full pt-8">
+					<div className="flex absolute bottom-10 justify-center">
 						<div className="w-[70%]">
-							<h1 className="text-white text-4xl font-bold text-center">
+							<h1 className="text-white text-4xl font-semibold text-center">
 								The Leading B2B Liquidity & Payment Settlement Provider.
 							</h1>
 							<p className="text-gray100 text-sm text-center mt-5 mb-20">

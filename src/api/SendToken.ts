@@ -16,7 +16,7 @@ export async function sendToken(email: string, token: string | null) {
 				},
 			}
 		);
-		return response;
+		return response.data;
 	} catch (error) {
 		throw new Error("Failed to fetch");
 	}

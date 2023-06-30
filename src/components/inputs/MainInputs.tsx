@@ -2,6 +2,7 @@ import React, { ReactNode } from "react";
 import mark from "../../assets/icons/mark.svg";
 import { Field } from "formik";
 import HideIcon from "../../assets/icons/hide.svg";
+import ShowIcon from "../../assets/icons/show.svg";
 
 interface MainInputsProps {
 	icon: ReactNode;
@@ -32,8 +33,8 @@ const MainInputs: React.FC<MainInputsProps> = ({
 }) => {
 	return (
 		<div
-			className={`relative border-gray100 border-2 rounded-lg gap-5 mt-5 flex p-3 lg:p-5  items-center${
-				errors && touched ? "border-2 relative border-red  rounded-lg " : ""
+			className={`relative border-gray100 border  rounded-lg gap-5 mt-5 flex p-3 lg:p-5  items-center focus:border-red ${
+				errors && !touched ? "border-2 relative border-red  rounded-lg " : ""
 			} `}
 		>
 			{icon}
@@ -48,7 +49,7 @@ const MainInputs: React.FC<MainInputsProps> = ({
 							as="select"
 							id="countryCode"
 							name="countryCode"
-							className={`mt-1 w-2/12 focus:outline-none block border-r border-gray200 sm:text-sm  ${
+							className={`mt-1 w-2/12  focus:outline-none block border-r border-gray200 sm:text-sm  ${
 								isPhone ? `block` : "hidden"
 							}`}
 						>
@@ -57,11 +58,11 @@ const MainInputs: React.FC<MainInputsProps> = ({
 							<option value="+44">+44</option>
 						</Field>
 						<Field
-							placeholder={placeholder}
 							type={isPassword && !showPassword ? "password" : "text"}
-							className="text-black bg-white font-semibold focus:border-0 w-11/12 focus:outline-none"
 							id={label}
 							name={name}
+							placeholder={placeholder}
+							className="text-black placeholder-transparent outline-none  font-regular focus:border-0 w-11/12 focus:outline-none focus:bg-none"
 						/>
 					</div>
 				</div>
@@ -73,7 +74,13 @@ const MainInputs: React.FC<MainInputsProps> = ({
 					</p>
 				) : null}
 				<div onClick={toggleIcon}>
-					{isPassword ? <img src={HideIcon} alt="show" /> : null}
+					{isPassword ? (
+						showPassword ? (
+							<img src={HideIcon} alt="show" />
+						) : (
+							<img src={ShowIcon} alt="hide" />
+						)
+					) : null}
 				</div>
 				{!errors && touched && !isPassword && <img src={mark} alt="correct" />}
 			</div>
